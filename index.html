@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pasapalabra de la clase · 2º de Primaria</title>
+  <meta name="description" content="Juego de Pasapalabra educativo e inclusivo para 2º de Primaria, con lectura en voz alta, pistas y vocabulario de muchas culturas." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Andika:wght@400;700&family=Baloo+2:wght@600;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- PANTALLA DE INICIO -->
+  <main id="screen-start" class="screen screen-start" aria-labelledby="title">
+    <div class="start-card">
+      <div class="start-badge" aria-hidden="true">🔤</div>
+      <h1 id="title" class="title">Pasapalabra<br /><span>de la clase</span></h1>
+      <p class="subtitle">Adivina las palabras letra a letra. ¡Si no la sabes, di «Pasapalabra» y vuelve luego!</p>
+
+      <fieldset class="modes">
+        <legend class="label">¿Cuánto tiempo tenemos?</legend>
+        <label class="mode">
+          <input type="radio" name="mode" value="quick" checked />
+          <span class="mode-box">
+            <span class="mode-icon" aria-hidden="true">⚡</span>
+            <span class="mode-name">Partida rápida</span>
+            <span class="mode-desc">12 letras · unos 10 minutos</span>
+          </span>
+        </label>
+        <label class="mode">
+          <input type="radio" name="mode" value="full" />
+          <span class="mode-box">
+            <span class="mode-icon" aria-hidden="true">🌈</span>
+            <span class="mode-name">Rosco completo</span>
+            <span class="mode-desc">27 letras · de la A a la Z</span>
+          </span>
+        </label>
+      </fieldset>
+
+      <div class="options">
+        <label class="toggle">
+          <input type="checkbox" id="opt-autoread" />
+          <span class="toggle-track" aria-hidden="true"><span class="toggle-thumb"></span></span>
+          <span>🔊 Leer cada pregunta en voz alta</span>
+        </label>
+        <label class="toggle">
+          <input type="checkbox" id="opt-upper" />
+          <span class="toggle-track" aria-hidden="true"><span class="toggle-thumb"></span></span>
+          <span>🅰️ Textos en MAYÚSCULAS</span>
+        </label>
+      </div>
+
+      <button id="btn-start" class="btn btn-primary btn-xl">¡Empezar! 🚀</button>
+    </div>
+  </main>
+
+  <!-- PANTALLA DE JUEGO -->
+  <main id="screen-game" class="screen screen-game" hidden>
+    <header class="topbar">
+      <button id="btn-home" class="btn btn-ghost btn-sm" aria-label="Volver al inicio">🏠 Inicio</button>
+      <div class="score" aria-label="Marcador">
+        <span class="chip chip-ok" title="Aciertos">✔ <b id="count-ok">0</b></span>
+        <span class="chip chip-pass" title="Pasapalabra">⏭ <b id="count-pass">0</b></span>
+        <span class="chip chip-ko" title="Para repasar">↺ <b id="count-ko">0</b></span>
+      </div>
+    </header>
+
+    <div class="game-layout">
+      <section class="rosco-wrap" aria-label="Rosco de letras">
+        <div id="rosco" class="rosco">
+          <div class="rosco-center">
+            <span class="center-label" id="center-label">Empieza por</span>
+            <span class="center-letter" id="center-letter">A</span>
+            <span class="center-left"><b id="count-left">0</b> por jugar</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" aria-live="polite">
+        <article class="question-card" id="question-card">
+          <div class="q-head">
+            <span class="q-pill" id="q-pill">Empieza por A</span>
+            <button id="btn-speak" class="btn btn-speak" aria-label="Leer en voz alta">🔊 Leer en voz alta</button>
+          </div>
+          <div class="q-icon" id="q-icon" aria-hidden="true">👵</div>
+          <p class="q-def text-adapt" id="q-def">Definición</p>
+
+          <!-- Zona de respuesta -->
+          <div id="answer-zone" class="answer-zone">
+            <div id="hint" class="hint" hidden></div>
+            <div class="input-row">
+              <label for="answer" class="sr-only">Escribe tu respuesta</label>
+              <input id="answer" class="answer text-adapt" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Escribe…" />
+              <button id="btn-enye" class="btn btn-key" type="button" aria-label="Escribir la letra eñe">ñ</button>
+            </div>
+            <div class="actions">
+              <button id="btn-check" class="btn btn-ok btn-lg">✔ Comprobar</button>
+              <button id="btn-pass" class="btn btn-pass btn-lg">⏭ Pasapalabra</button>
+              <button id="btn-hint" class="btn btn-soft btn-lg">💡 Pista</button>
+            </div>
+          </div>
+
+          <!-- Zona de mensaje -->
+          <div id="feedback" class="feedback" hidden>
+            <p class="fb-title" id="fb-title">¡Muy bien!</p>
+            <p class="fb-word text-adapt" id="fb-word">abuela</p>
+            <p class="fb-info text-adapt" id="fb-info"></p>
+            <div class="actions">
+              <button id="btn-fb-speak" class="btn btn-soft btn-lg">🔊 Escuchar</button>
+              <button id="btn-next" class="btn btn-primary btn-lg">Siguiente ➜</button>
+            </div>
+          </div>
+        </article>
+      </section>
+    </div>
+  </main>
+
+  <!-- PANTALLA FINAL -->
+  <main id="screen-end" class="screen screen-end" hidden>
+    <div class="end-card">
+      <div class="stars" id="stars" aria-hidden="true">⭐⭐⭐</div>
+      <h2 class="title" id="end-title">¡Rosco terminado!</h2>
+      <p class="subtitle" id="end-msg"></p>
+      <div class="end-score">
+        <span class="chip chip-ok big">✔ <b id="end-ok">0</b> aciertos</span>
+        <span class="chip chip-ko big">↺ <b id="end-ko">0</b> para repasar</span>
+      </div>
+      <h3 class="label">Palabras de hoy</h3>
+      <ul id="review" class="review"></ul>
+      <div class="actions">
+        <button id="btn-again" class="btn btn-primary btn-lg">🔁 Jugar otra vez</button>
+        <button id="btn-menu" class="btn btn-soft btn-lg">🏠 Cambiar modo</button>
+      </div>
+    </div>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
